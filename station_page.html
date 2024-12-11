@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="container">
+        <h3  class="text-center">Черновая АЭС</h3>
+         <div class="form-group">
+            <label class="form-label">Название</label>
+            {% if station.name %}
+                <input placeholder="Введите название" disabled type="text" class="form-control" style="width: 250px" value="{{ station.name }}">
+            {% else %}
+                <input placeholder="Введите название" disabled type="text" class="form-control" style="width: 250px">
+            {% endif %}
+        </div>
+         <div class="form-group">
+            <label class="form-label">Местоположение</label>
+            {% if station.location %}
+                <textarea placeholder="Введите местоположение" disabled type="text" class="form-control" style="width: 550px;height: 150px">{{ station.location }}</textarea>
+            {% else %}
+                <textarea placeholder="Введите местоположение" disabled type="text" class="form-control" style="width: 250px"></textarea>
+            {% endif %}
+        </div>
+          <div class="form-group">
+            <label class="form-label">Год ввода в строй</label>
+            {% if station.year %}
+                <input placeholder="Введите год" disabled type="text" class="form-control" style="width: 250px" value="{{ station.year }}">
+            {% else %}
+                <input placeholder="Введите год" disabled type="text" class="form-control" style="width: 250px">
+            {% endif %}
+        </div>
+        <form method="post" action="{% url 'delete_station' station.id %}">
+            {% csrf_token %}
+                <button class="btn btn-danger delete-draft-station-btn" type="submit">
+                    Удалить
+                </button>
+            </a>
+        </form>
+        <h4 class="text-center">Реакторы</h4>
+        <div class="cards-wrapper d-flex flex-column">
+            {% for reactor in station.get_reactors %}
+                    <!--<div class="card w-100 mb5">
+                         <div class="row g-0">
+                            <div class="col-md-6 d-flex justify-center">
+                                <img src="{{ reactor.get_image }}">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ reactor.name }}</h5>
+                                    <p class="card-text">Топливо: {{ reactor.fuel }}</p>
+                                    <div class="form-group">
+                                        <label class="form-label">Мощность (Вт)</label>
+                                        {% if reactor.value %}
+                                            <input placeholder="Введите мощность" disabled type="text" class="form-control" style="width: 250px" value="{{ reactor.value }}">
+                                        {% else %}
+                                            <input placeholder="Введите мощность" disabled type="text" class="form-control" style="width: 250px">
+                                        {% endif %}
+                                    </div>
+                                    <a href="/reactors/{{ reactor.id }}/" class="btn btn-primary" style="width: 100px">
+                                        Открыть
+                                    </a>
+                                </div>
+                            </div>
+                         </div>
+                    </div>-->
+
+                    <div class="card w-100 mb5" >
+                        <div class="row g-0">
+                           <div class="col-md-1 d-flex justify-center">
+                               <img src="{{ reactor.get_image }}" style="height: 150px; object-fit: cover;">
+                           </div>
+                           <div class="col-md-8" style="width: 90%">
+                               <div class="card-body">
+                                   <div style="display: flex; flex-direction: row;  justify-content: space-between; width: 100%">
+                                       <div style="display: flex; align-items: center; width: 100%; flex-direction: row;  justify-content: space-between;">
+                                           <span class="card-text" style="width: 100px; margin-left: 5px;">{{ reactor.name }}</span>
+                                           <span class="card-text" style="width: 200px; margin-left: 5px;">Топливо: {{ reactor.fuel }}</span>
+                                           <div class="form-group" style="display: flex; align-items: center;">
+                                                <!--<input disabled class="form-control" style="width: 150px; margin-right: 5px; margin-top: 25px;" value="{{ reactor.value }}">-->
+                                                {% if reactor.value %}
+                                                    <input placeholder="Введите мощность" disabled type="text" class="form-control" style="width: 200px; margin-right: 5px; margin-top: 25px;" value="{{ reactor.value }}">
+                                                {% else %}
+                                                    <input placeholder="Введите мощность" disabled type="text" class="form-control" style="width: 200px; margin-right: 5px; margin-top: 25px;">
+                                                {% endif %}
+                                                <label class="form-label" style="margin-top: 30px;">Вт</label>
+                                           </div>
+                                           <a href="/reactors/{{ reactor.id }}/" class="btn btn-primary" style="width: 100px; margin-left: 20px;">
+                                                Открыть
+                                           </a>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                        </div>
+                   </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock content %}
